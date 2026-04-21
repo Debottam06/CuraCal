@@ -29,58 +29,132 @@ export default function Navbar() {
       />
 
       {/* Desktop Menu */}
-      <ul className='hidden md:flex items-center gap-8 font-medium'>
-        <NavLink to='/' className='py-1 text-xl text-[#FF6347] font-bold hover:text-primary'>
-          <li >HOME</li>
-        </NavLink>
-        <NavLink to='/doctors' className='py-1 text-xl text-[#FF6347] font-bold hover:text-primary'>
-          <li>ALL DOCTORS</li>
-        </NavLink>
-        <NavLink to='/about' className='py-1 text-xl text-[#FF6347] font-bold hover:text-primary'>
-          <li>ABOUT</li>
-        </NavLink>
-        <NavLink to='/contact' className='py-1 text-xl text-[#FF6347] font-bold hover:text-primary'>
-          <li>CONTACT</li>
-        </NavLink>
-      </ul>
+      <ul className='hidden md:flex items-center gap-6 font-medium'>
+
+  <NavLink
+    to="/"
+    className={({ isActive }) =>
+      `px-4 py-2 rounded-full ${
+        isActive
+          ? "bg-indigo-100 text-indigo-600"
+          : "text-gray-600 hover:text-black"
+      }`
+    }
+  >
+    Home
+  </NavLink>
+
+  <NavLink
+    to="/doctors"
+    className={({ isActive }) =>
+      `px-4 py-2 rounded-full ${
+        isActive
+          ? "bg-indigo-100 text-indigo-600"
+          : "text-gray-600 hover:text-black"
+      }`
+    }
+  >
+    All Doctors
+  </NavLink>
+
+  <NavLink
+    to="/about"
+    className={({ isActive }) =>
+      `px-4 py-2 rounded-full ${
+        isActive
+          ? "bg-indigo-100 text-indigo-600"
+          : "text-gray-600 hover:text-black"
+      }`
+    }
+  >
+    About
+  </NavLink>
+
+  <NavLink
+    to="/contact"
+    className={({ isActive }) =>
+      `px-4 py-2 rounded-full ${
+        isActive
+          ? "bg-indigo-100 text-indigo-600"
+          : "text-gray-600 hover:text-black"
+      }`
+    }
+  >
+    Contact
+  </NavLink>
+
+</ul>
 
       {/* Profile/Account Section */}
       <div className='flex items-center gap-4'>
-        {
-          token && userData ? (
-            <div className='relative group flex items-center gap-2 cursor-pointer'>
-              <img className='w-8 rounded-full' src={userData.image} alt='Profile' />
-              <img className='w-2.5' src={assets.dropdown_icon} alt='Dropdown' />
-              {/* Dropdown Menu */}
-              <div className='min-w-48 absolute right-0 top-12 bg-stone-100 rounded-lg shadow-lg p-4 text-base font-medium text-gray-600 hidden group-hover:block z-20'>
-                <p onClick={() => navigate('/my-profile')} className='hover:text-black cursor-pointer'>
-                  My profile
-                </p>
-                <p onClick={() => navigate('/my-appointments')} className='hover:text-black cursor-pointer'>
-                  My Appointment
-                </p>
-                <p onClick={logout} className='hover:text-black cursor-pointer'>
-                  Logout
-                </p>
-              </div>
-            </div>
-          ) : (
-            <button 
-              onClick={() => navigate('/login')} 
-              className='bg-primary text-white px-8 py-2 rounded-full font-light hidden md:block'>
-              Create Account
-            </button>
-          )
-        }
 
-        {/* Mobile Menu Icon */}
-        <img 
-          onClick={() => setShowMenu(true)} 
-          className='w-6 md:hidden cursor-pointer' 
-          src={assets.menu_icon} 
-          alt='Menu' 
+  {token && userData ? (
+    <div className='relative group flex items-center gap-3 cursor-pointer'>
+
+      {/* Profile */}
+      <div className='flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 transition'>
+
+        <img
+          className='w-8 h-8 rounded-full object-cover border'
+          src={userData.image}
+          alt='Profile'
         />
+
+        <span className='hidden sm:block text-sm text-gray-700 font-medium'>
+          {userData.name?.split(" ")[0]}
+        </span>
+
+        <img className='w-3 opacity-60' src={assets.dropdown_icon} alt='' />
       </div>
+
+      {/* Dropdown */}
+      <div className='absolute right-0 top-12 w-52 bg-white rounded-xl shadow-lg border p-2 text-sm text-gray-600 hidden group-hover:block z-20'>
+
+        <p
+          onClick={() => navigate('/my-profile')}
+          className='px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition'
+        >
+          My Profile
+        </p>
+
+        <p
+          onClick={() => navigate('/my-appointments')}
+          className='px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition'
+        >
+          My Appointments
+        </p>
+
+        <hr className='my-2' />
+
+        <p
+          onClick={logout}
+          className='px-3 py-2 rounded-lg hover:bg-red-50 text-red-500 cursor-pointer transition'
+        >
+          Logout
+        </p>
+
+      </div>
+
+    </div>
+
+  ) : (
+    <button
+      onClick={() => navigate('/login')}
+      className='bg-indigo-600 text-white px-6 py-2 rounded-full text-sm hover:bg-indigo-700 transition hidden md:block'
+    >
+      Create Account
+    </button>
+  )}
+
+  {/* Mobile Menu */}
+  <img
+    onClick={() => setShowMenu(true)}
+    className='w-6 md:hidden cursor-pointer'
+    src={assets.menu_icon}
+    alt=''
+  />
+
+</div>
 
       {/* Mobile Menu */}
       <div className={`${showMenu ? 'fixed' : 'hidden'} top-0 right-0 w-full h-full z-50 bg-white transition-all`}>

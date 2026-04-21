@@ -34,74 +34,169 @@ export default function DoctorProfile() {
     getProfileData()
   },[dToken])
   return profileData && (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Profile Image Section */}
-        <div className="lg:w-1/3 flex justify-center lg:justify-start">
-          <img
-            src={profileData.image}
-            alt="Doctor Profile"
-            className="w-40 h-40 object-cover rounded-full border-2 border-gray-300"
-          />
+  <div className="w-[900px] mx-auto p-6">
+
+    <div className="bg-white rounded-[40px] shadow overflow-hidden">
+
+      {/* HEADER */}
+      <div className="bg-gradient-to-r from-indigo-700 to-indigo-500 text-white p-8 relative rounded-t-[40px]">
+
+        <p className="text-sm tracking-widest opacity-80">
+          DOCTOR PROFILE
+        </p>
+
+        <h1 className="text-4xl font-bold mt-2">
+          Dr. {profileData.name}
+        </h1>
+
+        <p className="mt-3 bg-white/20 inline-block px-4 py-1 rounded-full text-sm">
+          {profileData.degree} • {profileData.speciality}
+        </p>
+
+        {/* Experience */}
+        <span className="absolute top-6 right-6 border border-white/40 px-4 py-1 rounded-full text-sm">
+          {profileData.experience}
+        </span>
+
+        {/* Avatar */}
+        <div className="absolute -bottom-12 right-10">
+          <img src={profileData.image} alt="Doctor Profile" className="w-40 h-40 object-cover rounded-full border-2 border-gray-300" />
         </div>
-  
-        {/* Profile Information Section */}
-        <div className="lg:w-2/3 flex flex-col gap-4">
-          {/* Name and Basic Info */}
-          <p className="text-2xl font-bold text-gray-800">{profileData.name}</p>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-            <p className="text-gray-600">
-              {profileData.degree} - {profileData.speciality}
+
+      </div>
+
+      {/* BODY */}
+      <div className="p-8 pt-16 space-y-6">
+
+        {/* Availability */}
+        <div className="flex items-center justify-between">
+
+  <div className="flex items-center gap-3 text-green-600 font-medium">
+    <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+    {profileData.available
+      ? "Available for appointments"
+      : "Not Available"}
+  </div>
+
+  {/* Toggle */}
+  <label className="relative inline-flex items-center cursor-pointer">
+    <input
+      type="checkbox"
+      className="sr-only peer"
+      checked={profileData.available}
+      onChange={() =>
+        isEdit &&
+        setProfileData(prev => ({
+          ...prev,
+          available: !prev.available
+        }))
+      }
+    />
+    <div className="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-green-500 transition"></div>
+    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition peer-checked:translate-x-5"></div>
+  </label>
+
+</div>
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* FEES */}
+          <div className="bg-gray-100 p-6 rounded-2xl">
+            <p className="text-sm text-gray-500 uppercase">
+              Appointment Fee
             </p>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded-full text-sm mt-2 sm:mt-0">
-              {profileData.experience}
-            </button>
+
+            <p className="text-3xl font-bold text-indigo-600 mt-2">
+              {currency}
+              {isEdit ? (
+                <input
+                  type="number"
+                  value={profileData.fees}
+                  onChange={(e)=>setProfileData(prev=>({...prev,fees:e.target.value}))}
+                  className="ml-2 bg-transparent outline-none"
+                />
+              ) : profileData.fees}
+            </p>
+
+            <p className="text-sm text-gray-500">
+              Per consultation
+            </p>
           </div>
-  
-          {/* About Section */}
-          <div className="mt-4">
-            <p className="font-semibold text-gray-700">About :</p>
-            <p className="text-gray-600">{profileData.about}</p>
+
+          {/* ADDRESS */}
+          <div className="bg-gray-100 p-6 rounded-2xl">
+            <p className="text-sm text-gray-500 uppercase">
+              Address
+            </p>
+
+            {isEdit ? (
+              <>
+                <input
+                  className="block mt-2 bg-transparent outline-none"
+                  value={profileData.address.line1}
+                  onChange={(e)=>setProfileData(prev=>({...prev,address:{...prev.address,line1:e.target.value}}))}
+                />
+                <input
+                  className="block bg-transparent outline-none"
+                  value={profileData.address.line2}
+                  onChange={(e)=>setProfileData(prev=>({...prev,address:{...prev.address,line2:e.target.value}}))}
+                />
+              </>
+            ) : (
+              <>
+                <p className="mt-2">{profileData.address.line1}</p>
+                <p>{profileData.address.line2}</p>
+              </>
+            )}
           </div>
-  
-          {/* Appointment Fee */}
-          <p className="text-lg font-semibold text-gray-800 mt-4">
-            Appointment fee: <span className="text-blue-600">{currency}{isEdit ? <input type="number" onChange={(e)=>{setProfileData(prev=>({...prev,fees :e.target.value}))}} value={profileData.fees}/> : profileData.fees}</span>
-          </p>
-  
-          {/* Address Section */}
-          <div className="mt-4">
-            <p className="font-semibold text-gray-700">Address :</p>
-            <p className="text-gray-600">{isEdit ? <input type="text" onChange={(e)=>setProfileData(prev=>({...prev,address:{...prev.address,line1:e.target.value}}))} value={profileData.address.line1} /> : profileData.address.line1}</p>
-            <p className="text-gray-600">{isEdit ? <input type="text" onChange={(e)=>setProfileData(prev=>({...prev,address:{...prev.address,line2:e.target.value}}))} value={profileData.address.line2} /> : profileData.address.line2}</p>
-          </div>
-  
-          {/* Availability Checkbox */}
-          <div className="flex items-center mt-4">
-            <input
-              type="checkbox"
-              onChange={()=>isEdit && setProfileData(prev=>({...prev,available:!prev.available}))}
-              checked={profileData.available}
-              id="availability"
-              className="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="availability" className="ml-2 text-gray-700">Available</label>
-          </div>
-  
-          {/* Edit Button */}
-          {
-            isEdit
-            ? <button onClick={updateProfile} className="mt-6 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition duration-300">
-            Save
-          </button>
-          : <button onClick={()=>setIsEdit(true)} className="mt-6 bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition duration-300">
-          Edit
-        </button>
-          }
+
         </div>
+
+        {/* ABOUT */}
+        <div className="bg-gray-100 p-6 rounded-2xl">
+          <p className="text-sm text-gray-500 uppercase">
+            About
+          </p>
+
+          {isEdit ? (
+            <textarea
+              className="w-full mt-2 bg-transparent outline-none"
+              value={profileData.about}
+              onChange={(e)=>setProfileData(prev=>({...prev,about:e.target.value}))}
+            />
+          ) : (
+            <p className="mt-2 text-gray-700">
+              {profileData.about}
+            </p>
+          )}
+        </div>
+
+        {/* BUTTONS */}
+        <div className="flex items-center gap-4 pt-4">
+
+          {isEdit ? (
+            <button
+              onClick={updateProfile}
+              className="flex-1 bg-gray-800 text-white py-3 rounded-xl"
+            >
+              Save Profile
+            </button>
+          ) : (
+            <button
+              onClick={()=>setIsEdit(true)}
+              className="flex-1 border py-3 rounded-xl hover:bg-gray-100"
+            >
+              Edit Profile
+            </button>
+          )}
+
+        </div>
+
       </div>
     </div>
-  );
+  </div>
+);
   
 }
 

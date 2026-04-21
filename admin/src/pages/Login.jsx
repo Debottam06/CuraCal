@@ -78,14 +78,14 @@ export default function Login() {
         {/* Login Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300 mb-3"
         >
           Login
         </button>
         {
             state === 'Admin'
-            ? <p>Doctor Login? <span className='text-primary underline cursor-pointer' onClick={()=>setState('Doctor')}>Click here</span></p>
-            : <p>Admin Login? <span className='text-primary underline cursor-pointer' onClick={()=>setState('Admin')}>Click here</span></p>
+            ? <p>Doctor Login? <span className='text-primary underline cursor-pointer mt-[5px]' onClick={()=>setState('Doctor')}>Click here</span></p>
+            : <p>Admin Login? <span className='text-primary underline cursor-pointer mt-[5px]' onClick={()=>setState('Admin')}>Click here</span></p>
         }
       </div>
     </form>

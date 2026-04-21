@@ -80,7 +80,7 @@ export default function Doctors() {
           </p>
           <p
             onClick={() =>
-              speciality === 'General physician' ? navigate('/doctors') : navigate('/doctors/General physician')
+              speciality === 'General Physician' ? navigate('/doctors') : navigate('/doctors/General Physician')
             }
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${
               speciality === 'General physician' ? 'bg-indigo-100 text-black' : ''
@@ -91,24 +91,68 @@ export default function Doctors() {
         </div>
 
         {/* Doctor List */}
-        <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
-          {filterDoc.map(item => (
-            <div
-              key={item._id}
-              onClick={() => navigate(`/appointment/${item._id}`)}
-              className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500'
-            >
-              <img className='bg-blue-50' src={item.image} alt={item.name} />
-              <div className='p-4'>
-              <div className={`flex items-center gap-2 text-sm text-center ${item.available ?'text-green-500' : 'text-gray-500'} `}>
-                            <p className={`w-2 h-2 ${item.available ?  'bg-green-500':'bg-gray-500'} rounded-full`}></p><p>{item.available ? 'Availbale':'Not Available'}</p>
-                        </div>
-                <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
-                <p className='text-gray-600 text-sm'>{item.speciality}</p>
-              </div>
-            </div>
-          ))}
+        <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+  {filterDoc.map(item => (
+    <div
+      key={item._id}
+      onClick={() => navigate(`/appointment/${item._id}`)}
+      className='bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden group'
+    >
+
+      {/* Image */}
+      <div className='bg-blue-50 h-44 flex items-center justify-center overflow-hidden'>
+        <img
+          src={item.image}
+          alt={item.name}
+          className='h-full object-cover group-hover:scale-105 transition duration-300'
+        />
+      </div>
+
+      {/* Content */}
+      <div className='p-4 space-y-2'>
+
+        {/* Availability */}
+        <div className={`flex items-center gap-2 text-xs font-medium ${
+          item.available ? 'text-green-500' : 'text-gray-400'
+        }`}>
+          <span className={`w-2 h-2 rounded-full ${
+            item.available ? 'bg-green-500' : 'bg-gray-400'
+          }`}></span>
+          {item.available ? 'Available' : 'Not Available'}
         </div>
+
+        {/* Name */}
+        <h2 className='text-lg font-semibold text-gray-800'>
+          {item.name}
+        </h2>
+
+        {/* Speciality */}
+        <p className='text-sm text-gray-500'>
+          {item.speciality}
+        </p>
+
+        {/* Experience */}
+        <p className='text-sm text-indigo-500 font-medium'>
+          {item.experience} experience
+        </p>
+
+        {/* Address */}
+        <p className='text-xs text-gray-400 line-clamp-2'>
+          {item.address?.line1}, {item.address?.line2}
+        </p>
+
+      </div>
+
+      {/* Hover Bottom Action */}
+      <div className='px-4 pb-4   transition duration-300'>
+        <button className='w-full py-2 rounded-lg bg-indigo-500 text-white text-sm hover:bg-indigo-600'>
+          Book Appointment
+        </button>
+      </div>
+
+    </div>
+  ))}
+</div>
       </div>
     </div>
   );

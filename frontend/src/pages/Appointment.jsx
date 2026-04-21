@@ -45,10 +45,26 @@ export default function Appointment() {
         let formattedTime = currentDate.toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit',
-          second: '2-digit',
+          // second: '2-digit',
         });
 
+        const day = currentDate.getDate();
+const month = currentDate.getMonth() + 1;
+const year = currentDate.getFullYear();
 
+const slotDate = `${day}_${month}_${year}`;
+const slotTime = formattedTime;
+
+const isSlotAvailable =
+  !docInfo.slots_booked[slotDate] ||
+  !docInfo.slots_booked[slotDate].includes(slotTime);
+
+if (isSlotAvailable) {
+  timeSlots.push({
+    datetime: new Date(currentDate),
+    time: formattedTime,
+  });
+}
         // let day = currentDate.getDate()
         // let month = currentDate.month()+1
         // let year = currentDate.getFullYear()
@@ -58,10 +74,7 @@ export default function Appointment() {
 
         // const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false :true
         // if(isSlotAvailable){
-          timeSlots.push({
-            datetime: new Date(currentDate),
-            time: formattedTime,
-          });
+          
         // }
         
 
